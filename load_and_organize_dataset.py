@@ -25,7 +25,7 @@ def organize_files(in_path, out_path, min_age, max_age):
     # Making folders for each dataset
     for dirs in ['train', 'valid', 'test']:
         os.makedirs(out_path + dirs, exist_ok=True)
-        for i in range(min_age, max_age):
+        for i in range(min_age, max_age + 1):
             os.makedirs(out_path + dirs + '/' + str(i), exist_ok=True)
     
     for label in count_dict:
