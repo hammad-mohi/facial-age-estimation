@@ -149,10 +149,9 @@ class CustomDatasetFolder(data.Dataset):
         """
         if sys.version_info >= (3, 5):
             # Faster and available in Python 3.5 and above
-            classes = [d.name for d in os.scandir(dir) if (d.is_dir() & ~d.name.startswith('.'))]
+            classes = [d.name for d in os.scandir(dir) if d.is_dir()]
         else:
             classes = [d for d in os.listdir(dir) if os.path.isdir(os.path.join(dir, d))]
-        print(classes)
         classes.sort(key=int)
 
         class_to_idx = {classes[i]: i for i in range(len(classes))}

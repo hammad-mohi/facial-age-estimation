@@ -34,19 +34,10 @@ def get_off_accuracy(model, data_loader):
 
     freq_total = np.concatenate((freq_neg, freq_pos))
     freq_total = freq_total/freq_total.sum()
-
-
-
-    diffs = []
-    for n in range(-80, 81):
-        diffs.append(n)
-
-
     plt.bar(diffs[50:110], freq_total[50:110])
     plt.title("Distribution of Actual-Prediction")
     plt.xlabel("difference value")
     plt.ylabel("prob")
-    print("+/- 1 years accuracy: {:.2f}%".format(freq_total[79:81].sum()*100))
     print("+/- 5 years accuracy: {:.2f}%".format(freq_total[75:86].sum()*100))
     print("+/- 10 years accuracy: {:.2f}%".format(freq_total[70:91].sum()*100))
 
