@@ -4,7 +4,7 @@
 # In[ ]:
 
 
-def organize_files(in_path, out_path):
+def organize_files(in_path, out_path, min_age, max_age):
     '''Function to split the samples into training, validation and test folders'''
     import os
     import shutil
@@ -16,15 +16,16 @@ def organize_files(in_path, out_path):
         labels = f.split('_')[:3]
         name = '_'.join(labels)
         
-        if name in count_dict:
-            count_dict[name] += 1
-        else:
-            count_dict[name] = 1    
+        if min_age <= int(labels[0]) <= max_age:
+            if name in count_dict:
+                count_dict[name] += 1
+            else:
+                count_dict[name] = 1    
     
     # Making folders for each dataset
     for dirs in ['train', 'valid', 'test']:
         os.makedirs(out_path + dirs, exist_ok=True)
-        for i in range(1, 117):
+        for i in range(min_age, max_age):
             os.makedirs(out_path + dirs + '/' + str(i), exist_ok=True)
     
     for label in count_dict:
