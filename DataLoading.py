@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 def load_dataset(batch_size):
     np.random.seed(1000)
     
-    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    transform = transforms.Compose([transforms.RandomHorizontalFlip(p=0.5), transforms.RandomRotation(15) ,transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
     
     train_dataset = CustomImageFolder(root='./Data/train', transform=transform)
     val_dataset = CustomImageFolder(root='./Data/valid', transform=transform)
@@ -149,9 +149,10 @@ class CustomDatasetFolder(data.Dataset):
         """
         if sys.version_info >= (3, 5):
             # Faster and available in Python 3.5 and above
-            classes = [d.name for d in os.scandir(dir) if d.is_dir()]
+            classes = [d.name for d in os.scandir(dir) if (d.is_dir() & ~d.name.startswith('.'))]
         else:
             classes = [d for d in os.listdir(dir) if os.path.isdir(os.path.join(dir, d))]
+#         print(classes)
         classes.sort(key=int)
 
         class_to_idx = {classes[i]: i for i in range(len(classes))}
@@ -173,7 +174,7 @@ class CustomDatasetFolder(data.Dataset):
         if self.target_transform is not None:
             target = self.target_transform(target)
 
-        return sample, target
+        return sample, target, path
 
 
     def __len__(self):
