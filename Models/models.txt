@@ -1,1 +1,0 @@
-These are all the models we tested for our application.
